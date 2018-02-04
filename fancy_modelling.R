@@ -42,7 +42,7 @@ fit1 <- tslm(train ~ trend +season)
 summary(fit1)
 ## Ploting 
 tsdisplay(residuals(fit1))
-additive<- forecast.lm(fit1, h = Forecast_Horizon)
+additive<- forecast(fit1, h = Forecast_Horizon)
 accuracy(additive, validate, test = T)
 acf(residuals(fit1))
 
@@ -52,7 +52,7 @@ acf(residuals(fit1))
 
 fit2 <- tslm(log(train) ~ trend + season)
 summary(fit2)
-multiplicative<- forecast.lm(fit2, h = Forecast_Horizon)
+multiplicative<- forecast(fit2, h = Forecast_Horizon)
 tsdisplay(residuals(fit2))
 accuracy(exp(multiplicative$mean), validate, test = T)
 acf(residuals(fit2))
@@ -85,23 +85,23 @@ validatefest <- my_data[73:84,]
 
 fit3 <-  tslm(log(train) ~ trend + season + dummy_fest,data = trainfest)
 summary(fit3)
-multiplicativefest<- forecast.lm(fit3, h = Forecast_Horizon, newdata = validatefest )
+multiplicativefest<- forecast(fit3, h = Forecast_Horizon, newdata = validatefest )
 accuracy(exp(multiplicativefest$mean), validate, test = T)
 acf(residuals(fit3))
 seasonplot(residuals(fit3))
 monthplot(residuals(fit3))
 
 
-fit4 <- arima(log(train), order = c(12,0,0))
-summary(fit4)
-ar3model <- forecast(fit4, h=Forecast_Horizon)
-accuracy(exp(ar3model$mean), validate)
+# fit4 <- arima(log(train), order = c(12,0,0))
+# summary(fit4)
+# ar3model <- forecast(fit4, h=Forecast_Horizon)
+# accuracy(exp(ar3model$mean), validate)
 
 
 
 final_model <- tslm(log(fancy) ~ trend + season)
 summary(final_model)
-ForecastSales<- forecast.lm(final_model, h = Forecast_Horizon)
+ForecastSales<- forecast(final_model, h = Forecast_Horizon)
 hist(residuals(final_model))
 x<-seq(-0.5, 0.5, by = 0.001)
 lines(x,8*dnorm(x,0,sd(residuals(final_model))), ylim = c(0,15), col = 2 )

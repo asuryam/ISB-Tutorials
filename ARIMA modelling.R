@@ -21,10 +21,13 @@ lines(naive_fit$mean, col = 3)
 legend("topleft", lty = 1, col=c(1,2,3), legend = c( "Validate", "Mean Method", "Seasonal Naive Method"))
 accuracy(mean_fit, validate, test = T)
 accuracy(naive_fit, validate, test = T)
+
 adf.test(train, alternative = "stationary")
 
 plot(diff(train))
 adf.test(diff(train), alternative = "stationary")
+
+## zt as yt - yt-1
 tsdisplay(diff(train))
 
 
@@ -34,13 +37,16 @@ model1 <- arima(train, order = c(3,1,2))
 summary(model1)
 acf(residuals(model1))
 hist(residuals(model1))
+plot(residuals(model1))
+
+tsdiag()
 
 forecast_beer<-forecast(model1, h = Forecast_Horizon)
 accuracy(forecast_beer, validate, test = T)
 
 tsdisplay(diff(ausbeer))
 ## ARIMA model is best 
-final_model <- arima(ausbeer, order = c(3,1,4))
+final_model <- arima(ausbeer, order = c(3,1,2))
 summary(final_model)
 acf(residuals(final_model))
 hist(residuals(final_model))
