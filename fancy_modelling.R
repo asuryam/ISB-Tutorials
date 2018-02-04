@@ -1,16 +1,16 @@
-setwd("D://forecasting//")
+setwd("C://ISB-Tutorials//forecasting/")
 library(forecast)
+library(fpp)
 
 data("fancy")
 plot(fancy)
 
 fancy1 <- read.csv("fancy.csv", header = F)
-scan("")
-
-
 colnames(fancy1) <- "Sales"
 ts_fancy1<-ts(fancy1$Sales, start= c(1987,1), end = c(1993, 12), frequency = 12)
 plot.ts(ts_fancy1)
+
+
 seasonplot(fancy, ylab = "Sales", xlab = "Month", main = "Seasonal Plot - Sales", year.labels = T, year.labels.left = T,col=1:20, pch=19  )
 monthplot(fancy, ylab = "Sales", xlab = "Month",  main = "Seasonal Deviation plot: Sales")
 boxplot(fancy~cycle(fancy))

@@ -1,5 +1,6 @@
 setwd("D://forecasting//")
 library(forecast)
+library(fpp)
 
 data("ausbeer")
 plot(ausbeer)
