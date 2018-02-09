@@ -1,4 +1,4 @@
-setwd("D:\\ISB Tutorials\\SA2")
+setwd("C:\\ISB-Tutorials\\SA2")
 library(MASS)
 library(tidyverse)
 library(car)
@@ -11,7 +11,25 @@ str(Data)
 summary(Data)
 sum(is.na(Data))
 
+StudentResidualPlot <- function(model, comment){
+  stu.resid <- studres(model)  
+  hist(stu.resid, freq=FALSE,     
+       main=comment) 
+  xfit<-seq(min(stu.resid),max(stu.resid),length=80)  
+  yfit<-dnorm(xfit)  
+  lines(xfit, yfit)
+  
+}
 
+CustomResidualPlot<- function(model){
+  residualPlot(model1, id.n=5)
+  residualPlots(model1,id.n=3)
+}
+
+DeletionDiagonsitics<- function(model, cutoff){
+  influencePlot(model,id.n=3) # A user friendly representation of the above
+  plot(model, which=4, cook.levels=cutoff)
+}
 
 Quant_colnames <- c ("COUPON", "NEW", "HI", "S_INCOME", "E_INCOME", 
                      "S_POP", "E_POP", "DISTANCE", "PAX", "FARE")
@@ -54,7 +72,11 @@ summary(model1)
 anova(model1)
 par(mfrow=c(2,2))
 plot(model1)
-residualPlots(model1)
+par(mfrow=c(1,1))
+# residualPlot(model1, id.n=5)
+# residualPlots(model1,id.n=3)
+CustomResidualPlot(model1)
+StudentResidualPlot(model1, "Initial Model")
 
 #Box Cox tranformation 
 gh<-boxcox(model1 )
@@ -67,9 +89,8 @@ par(mfrow=c(2,2))
 plot(model2)
 
 par(mfrow=c(1,1))
-residualPlot(model2, id.n=5)
-
-residualPlots(model2,id.n=3)
+CustomResidualPlot(model2)
+StudentResidualPlot(model2, "Model 2nd Iteration")
 
 boxplot(final_data$COUPON)
 boxplot(sqrt(final_data$COUPON))
@@ -102,8 +123,8 @@ par(mfrow=c(2,2))
 plot(model3)
 
 par(mfrow=c(1,1))
-residualPlot(model3, id.n=5)
-residualPlots(model3,id.n=3)
+CustomResidualPlot(model3)
+StudentResidualPlot(model3, "Model 3rd Iteration")
 
 vif(model3)
 colldiag(final_data[,-c(3,4,10,11,12,13,14)], center = TRUE)
@@ -120,12 +141,13 @@ summary(model4)
 anova(model4)
 par(mfrow=c(2,2))
 plot(model4)
-residualPlots(model4)
+par(mfrow=c(1,1))
+residualPlot(model2, id.n=5)
+residualPlots(model2,id.n=3)
+
 
 vif(model4)
 colldiag(final_data[,-c(3,4,6,10,11,12,13,14)], center = TRUE)
-
-
 
 # Deletion Diagnostics
 influence.measures(model4)
@@ -134,6 +156,7 @@ influencePlot(model4,id.n=3) # A user friendly representation of the above
 
 cutoff <- 4/((nrow(final_data)-length(model4$coefficients)-2)) 
 plot(model4, which=4, cook.levels=cutoff)
+DeletionDiagonsitics(model4, cutoff)
 
 model5 <- lm(log(FARE) ~ COUPON + NEW + E_INCOME + E_POP + PAX + 
                          VACATION + SW + SLOT + GATE + SQRTCOUPON + HILOG + S_INCOMELOG + 
@@ -144,7 +167,8 @@ summary(model5)
 influencePlot(model5,id.n=3) # A user friendly representation of the above
 
 cutoff <- 4/((nrow(final_data)-length(model1$coefficients)-2)) 
-plot(model5, which=4, cook.levels=cutoff)
+DeletionDiagonsitics(model5, cutoff)
+#plot(model5, which=4, cook.levels=cutoff)
 
 model5
 
