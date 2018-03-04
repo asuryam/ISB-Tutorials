@@ -57,6 +57,7 @@ xseq2 <- seq(mu2_tr-8*sigma_tr, mu2_tr+8*sigma_tr, 40)
 densities2<-dnorm(xseq2, mu2_tr,sigma_tr)
 plot(xseq2, densities2, col="darkgreen",xlab="", ylab="Density", type="l",lwd=2, cex=2, main="PDF of Telephone call Placing ", cex.axis=.8)
 abline(v=mu2_tr)
+abline(v=7000, col = 'red')
 z2_c <- (7000 -mu2_tr)/sigma_tr
 pnorm(z2_c, lower.tail = F)
 pnorm(7000, mu2_tr, sigma_tr, lower.tail = F)

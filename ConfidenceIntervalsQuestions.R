@@ -10,7 +10,7 @@ df1<-n1-1
 T_90_CI<-qt(c(0.05,0.95),df1)
 x_bar1 + T_90_CI*s1/sqrt(n1)
 
-T_95_CI<-qt(c(0.025,0.995),df1)
+T_95_CI<-qt(c(0.025,0.975),df1)
 x_bar1 + T_95_CI*s1/sqrt(n1)
 
 T_99_CI<-qt(c(0.005,0.995),df1)
@@ -49,7 +49,7 @@ n3<-68
 N_90_CI<-qnorm(c(0.05,0.95))
 p + N_90_CI*s3/sqrt(n3)
 
-N_95_CI<-qnorm(c(0.025,0.995))
+N_95_CI<-qnorm(c(0.025,0.975))
 p + N_95_CI*s3/sqrt(n3)
 
 N_99_CI<-qnorm(c(0.005,0.995))

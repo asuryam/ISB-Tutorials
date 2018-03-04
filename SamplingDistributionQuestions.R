@@ -12,7 +12,6 @@ pnorm(125000, x_bar1, s1/sqrt(n1), lower.tail = F)
 ## Part b of teh question 
 s_dev <- seq(30000, 40000, 500)
 p_norms<-pnorm(125000, x_bar1, s_dev/sqrt(n1), lower.tail = F)
-
 Output_Sdev_Probabilty<-data.frame(Standard_Deviation = s_dev, Probability=p_norms)
 
 ## Q2
