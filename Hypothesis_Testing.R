@@ -8,6 +8,7 @@ mu0 <- 247
 ## Option 1
 t_test_statistic1 <- (xbar1 - mu0) / (s1/sqrt(n1))
 pt(t_test_statistic1,df = n1-1, lower.tail = F)
+
 2*pt(t_test_statistic1,df = n1-1, lower.tail = F)
 
 ## Option2
